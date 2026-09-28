@@ -96,3 +96,15 @@ set_input_jitter clk_fpga_0 0.3
 set_input_jitter clk_fpga_1 0.15
 
 
+# On-board reference clock on Y19, feeding the ADF4001 initialisation logic in
+# system_top.v. Without these constraints that logic is not timed at all.
+create_clock -name i_clk -period 25.000 [get_ports i_clk]
+
+# system_top.v divides i_clk by 8 in fabric to clock ADF4001_init.
+create_generated_clock -name adf4001_spi_clk -source [get_ports i_clk] \
+	-divide_by 8 [get_pins -hier -filter {NAME =~ *adf4001_spi_clk_reg/Q}]
+
+# The ADF4001 block is self-contained: it has no data path to or from the rest
+# of the design, and its SPI output pins have no timing relation to any clock.
+set_clock_groups -asynchronous -group [get_clocks {i_clk adf4001_spi_clk}]
+set_false_path -to [get_ports {pll_le pll_clk pll_mosi}]

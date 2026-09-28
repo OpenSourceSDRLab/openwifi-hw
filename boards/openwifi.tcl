@@ -113,7 +113,7 @@ set obj [current_project]
 set_property -name "board_part_repo_paths" -value "$board_part_repos" -objects $obj
 set_property -name "board_part" -value "$board_part_string" -objects $obj
 # classic_soc_boot does not exist in Vivado 2020.2 and earlier.
-if {[lsearch -exact [list_property $obj] classic_soc_boot] >= 0} {
+if {[lsearch -nocase -exact [list_property $obj] classic_soc_boot] >= 0} {
   set_property -name "classic_soc_boot" -value "0" -objects $obj
 }
 set_property -name "compxlib.activehdl_compiled_library_dir" -value "$proj_dir/${_xil_proj_name_}.cache/compile_simlib/activehdl" -objects $obj
@@ -154,7 +154,7 @@ set_property -name "preferred_sim_model" -value "rtl" -objects $obj
 set_property -name "project_type" -value "Default" -objects $obj
 set_property -name "pr_flow" -value "0" -objects $obj
 # revised_directory_structure does not exist in Vivado 2020.2 and earlier.
-if {[lsearch -exact [list_property $obj] revised_directory_structure] >= 0} {
+if {[lsearch -nocase -exact [list_property $obj] revised_directory_structure] >= 0} {
   set_property -name "revised_directory_structure" -value "1" -objects $obj
 }
 set_property -name "sim.central_dir" -value "$proj_dir/${_xil_proj_name_}.ip_user_files" -objects $obj

@@ -60,12 +60,17 @@ foreach ($relative in $Ip) {
     }
 
     Write-Host "build $relative"
+    # A -Force rebuild must not be able to pass on the previous component.xml.
+    if (Test-Path $component) { Remove-Item $component -Force }
     Push-Location $directory
     try {
         & $Vivado -mode batch -source "${name}_ip.tcl" -nojournal -log "package_${name}.log" | Out-Null
-        if (-not (Test-Path $component)) {
+        # PowerShell 5.1 does not turn a native process exit code into a
+        # terminating error, so $ErrorActionPreference does not cover this.
+        $exitCode = $LASTEXITCODE
+        if ($exitCode -ne 0 -or -not (Test-Path $component)) {
             $failed += $relative
-            Write-Warning "$relative did not produce component.xml; see $directory\package_${name}.log"
+            Write-Warning "$relative failed (vivado exit $exitCode); see $directory\package_${name}.log"
         }
     } finally {
         Pop-Location

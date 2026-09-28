@@ -75,7 +75,7 @@ always @ (posedge clk or negedge rst_n)begin
                             end
                         end       
             3'd4    :   begin 
-                            if(delay_cnt <= SPI_CLK_FREQ_MHZ * 2000)   // 200 us
+                            if(delay_cnt <= SPI_CLK_FREQ_MHZ * 2000)   // 2 ms
                                 delay_cnt <= delay_cnt + 1;
                             else begin
                                 delay_cnt <= 0;   
