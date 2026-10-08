@@ -4253,7 +4253,7 @@
         }
       },
       "axi_iic_main": {
-        "vlnv": "xilinx.com:ip:axi_iic:2.0",
+        "vlnv": "xilinx.com:ip:axi_iic:2.1",
         "xci_name": "system_axi_iic_main_0",
         "xci_path": "ip\\system_axi_iic_main_0\\system_axi_iic_main_0.xci",
         "inst_hier_path": "axi_iic_main",
